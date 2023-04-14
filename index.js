@@ -14,7 +14,7 @@ document.getElementById("login_button").addEventListener('click', async () => {
 document.getElementById("logout_button").addEventListener('click', async () => {
 	document.querySelector("fieldset").disabled = true;
 	backend.logout().then((res) => {
-		document.getElementById("#app").classList.remove("logged-in");
+		document.getElementById("app").classList.remove("logged-in");
 		document.querySelector("fieldset").disabled = false;
 	});
 });
