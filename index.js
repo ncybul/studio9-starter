@@ -1,3 +1,31 @@
+import Backend from "https://madata.dev/src/index.js";
+
+let backend = Backend.from("https://github.com/ncybul/studio9-starter/data.json");
+
+document.getElementById("login_button").addEventListener('click', async () => {
+	document.querySelector("fieldset").disabled = true;
+	backend.login().then((res) => {
+		document.getElementById("app").classList.add("logged-in");
+		document.getElementById("username").innerText = backend.user.username;
+		document.getElementById("user-avatar").src = backend.user.avatar;
+		document.querySelector("fieldset").disabled = false;
+	});
+});
+document.getElementById("logout_button").addEventListener('click', async () => {
+	document.querySelector("fieldset").disabled = true;
+	backend.logout().then((res) => {
+		document.getElementById("#app").classList.remove("logged-in");
+		document.querySelector("fieldset").disabled = false;
+	});
+});
+
+backend.addEventListener("mv-login", () => {
+	document.getElementById("app").classList.add("logged-in");
+});
+backend.addEventListener("mv-logout", () => {
+	document.getElementById("app").classList.remove("logged-in");
+});
+
 // Get references to DOM elements
 export const dom = {
 	tasksList: document.querySelector("#tasks_list"),
@@ -8,20 +36,34 @@ export const dom = {
 };
 
 // Initialize data. Do we have anything stored?
-if (localStorage.tasks) {
-	let tasks = JSON.parse(localStorage.tasks);
-	for (let task of tasks) {
-		addItem(task);
+// if (localStorage.tasks) {
+// 	let tasks = JSON.parse(localStorage.tasks);
+// 	for (let task of tasks) {
+// 		addItem(task);
+// 	}
+// }
+document.getElementById("app").classList.add("loading-tasks");
+backend.load().then((res) => {
+	document.getElementById("app").classList.remove("loading-tasks");
+	if (res) {
+		let tasks = res;
+		for (let task of tasks) {
+			addItem(task);
+		}
+	} 
+	else {
+		// Add one empty task to start with
+		addItem();
 	}
-}
-else {
-	// Add one empty task to start with
-	addItem();
-}
+});
 
 // Save when the save button is clicked
 dom.saveButton.addEventListener("click", e => {
-	localStorage.tasks = JSON.stringify(getData());
+	// localStorage.tasks = JSON.stringify(getData());
+	document.querySelector("fieldset").disabled = true;
+	backend.store(JSON.stringify(getData())).then((res) => {
+		document.querySelector("fieldset").disabled = false;
+	});
 });
 
 // Keyboard shortcuts

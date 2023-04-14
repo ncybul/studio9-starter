@@ -20,3 +20,28 @@ input[type="text"] {
 	font-style: italic;
 	text-decoration: line-through;
 }
+
+#save_button, #logout_button {
+	display: none;
+}
+
+.logged-in #login_button {
+	display: none;
+}
+
+.logged-in #save_button, .logged-in #logout_button {
+	display: revert;
+}
+
+#task-loader {
+	display: none;
+}
+
+.loading-tasks #task-loader {
+	width: 50px;
+	display: revert;
+}
+
+fieldset {
+	display: contents;
+}
