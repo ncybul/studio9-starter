@@ -1,14 +1,1 @@
-[
-	{
-		"title": "hi",
-		"done": false
-	},
-	{
-		"title": "hello",
-		"done": true
-	},
-	{
-		"title": "another",
-		"done": false
-	}
-]
+[{"title":"hi","done":false},{"title":"hello","done":true},{"title":"hey","done":false}]
